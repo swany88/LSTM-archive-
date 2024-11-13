@@ -65,11 +65,17 @@ least_volatile_data = all_data[all_data['ticker'].isin(least_volatile_tickers)]
 medium_volatile_data = all_data[all_data['ticker'].isin(medium_volatile_tickers)]
 high_volatile_data = all_data[all_data['ticker'].isin(high_volatile_tickers)]
 
-# Save the data to separate CSV files
-least_volatile_data.to_csv('least_volatile_stocks_data.csv', index=False)
-medium_volatile_data.to_csv('medium_volatile_stocks_data.csv', index=False)
-high_volatile_data.to_csv('high_volatile_stocks_data.csv', index=False)
+# Define the output directory
+output_dir = 'market_data'
 
-print("Data for least volatile stocks saved to 'least_volatile_stocks_data.csv'")
-print("Data for medium volatile stocks saved to 'medium_volatile_stocks_data.csv'")
-print("Data for high volatile stocks saved to 'high_volatile_stocks_data.csv'")
+# Ensure the output directory exists
+os.makedirs(output_dir, exist_ok=True)
+
+# Save the data to separate CSV files in the market_data folder
+least_volatile_data.to_csv(os.path.join(output_dir, 'least_volatile_stocks_data.csv'), index=False)
+medium_volatile_data.to_csv(os.path.join(output_dir, 'medium_volatile_stocks_data.csv'), index=False)
+high_volatile_data.to_csv(os.path.join(output_dir, 'high_volatile_stocks_data.csv'), index=False)
+
+print("Data for least volatile stocks saved to 'market_data/least_volatile_stocks_data.csv'")
+print("Data for medium volatile stocks saved to 'market_data/medium_volatile_stocks_data.csv'")
+print("Data for high volatile stocks saved to 'market_data/high_volatile_stocks_data.csv'")
