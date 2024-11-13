@@ -164,6 +164,22 @@ def print_fft_analysis(fft_cycles):
     for cycle_name, (frequency, amplitude, period) in fft_cycles.items():
         print(f"{cycle_name:<25} {frequency:<20.6f} {amplitude:<15.2f} {period:<15.2f}")
 
+# Load saved model to use if you want to make predictions without retraining
+def load_saved_model(filepath):
+    model_data = torch.load(filepath)
+    
+    # Initialize model with saved hyperparameters
+    model = LSTMModel(
+        input_size=filtered_train_df.shape[1]-1,
+        hidden_size=model_data['hyperparameters']['hidden_size'],
+        num_layers=model_data['hyperparameters']['num_layers'],
+        dropout=model_data['hyperparameters']['dropout']
+    ).to(device)
+    
+    # Load the saved state
+    model.load_state_dict(model_data['model_state'])
+    
+    return model, model_data
 #! implementation for finding sequence length
 # # Average Timeframes for Each Business Cycle Phase (in days)
 # average_timeframes = avg_BCI_timeframe(data)
